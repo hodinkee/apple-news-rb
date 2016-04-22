@@ -10,6 +10,8 @@ module AppleNews
     ].freeze
 
     def initialize(id, opts = {})
+      opts = ActiveSupport::HashWithIndifferentAccess.new(opts)
+      
       @version = '1.1'
       @id = id
       @title = opts.fetch(:title, nil)
@@ -22,7 +24,7 @@ module AppleNews
       # Optional properties
       @advertising_settings = opts.fetch(:advertising_settings, {})
       @subtitle = opts.fetch(:subtitle, nil)
-      @metadata = opts.fetch(:metadata, {})
+      @metadata = Metadata.new(opts.fetch(:metadata, {}))
       @document_style = opts.fetch(:document_style, nil)
       @text_styles = opts.fetch(:text_styles, [])
       @component_layouts = opts.fetch(:component_layouts, [])
