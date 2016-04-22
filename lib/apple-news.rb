@@ -5,6 +5,7 @@ require "apple-news/configuration"
 require "apple-news/client"
 require "apple-news/article"
 require "apple-news/metadata"
+require "apple-news/component"
 
 module AppleNews
   extend self
