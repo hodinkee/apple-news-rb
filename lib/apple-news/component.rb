@@ -1,4 +1,5 @@
 require "apple-news/components/base"
+require "apple-news/components/text"
 Dir["#{File.dirname(__FILE__)}/components/*.rb"].each { |path| require path }
 
 module AppleNews

@@ -16,6 +16,10 @@ module AppleNews
 
         true
       end
+
+      def properties
+        self.class.properties
+      end
     end
 
     module ClassMethods

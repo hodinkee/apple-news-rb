@@ -18,6 +18,12 @@ module AppleNews
       def role
         self.class.role
       end
+
+      def as_json
+        Hash[properties.map { |key, _|
+          [key, send(key)]
+        }.reject { |p| p[1].nil? }]
+      end
     end
   end
 end
