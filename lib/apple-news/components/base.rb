@@ -5,9 +5,8 @@ module AppleNews
 
       optional_properties :identifier, :layout, :style
 
-      class_attribute :_role
       def self.role(val = nil)
-        val.nil? ? _role : _role = val
+        val.nil? ? _required_property_map[:role] : required_property(:role, val)
       end
 
       def role

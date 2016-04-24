@@ -33,7 +33,14 @@ module AppleNews
       def as_json
         Hash[properties.map { |key, _|
           json_key = _property_inflection[key] || key.to_s.camelize(:lower)
-          val = send(key).respond_to?(:as_json) ? send(key).as_json : send(key)
+          val = if send(key).respond_to?(:as_json)
+            send(key).as_json
+          elsif send(key).is_a?(Array)
+            send(key).map(&:as_json)
+          else
+            send(key)
+          end
+
           [json_key, val]
         }.reject { |p| p[1].nil? }]
       end
