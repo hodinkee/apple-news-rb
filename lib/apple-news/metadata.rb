@@ -8,5 +8,8 @@ module AppleNews
     optional_property :generator_name, "apple-news-rb"
     optional_property :generator_version, AppleNews::VERSION
     optional_property :transparent_toolbar, false
+
+    property_inflection :canonical_url, 'canonicalURL'
+    property_inflection :thumbnail_url, 'thumbnailURL'
   end
 end

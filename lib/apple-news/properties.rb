@@ -12,9 +12,11 @@ module AppleNews
     included do
       class_attribute :_required_property_map
       class_attribute :_optional_property_map
+      class_attribute :_property_inflection
 
       self._required_property_map ||= {}
       self._optional_property_map ||= {}
+      self._property_inflection ||= {}
 
       def valid?
         _required_property_map.each do |prop, _|
@@ -30,8 +32,9 @@ module AppleNews
 
       def as_json
         Hash[properties.map { |key, _|
+          json_key = _property_inflection[key] || key.to_s.camelize(:lower)
           val = send(key).respond_to?(:as_json) ? send(key).as_json : send(key)
-          [key, val]
+          [json_key, val]
         }.reject { |p| p[1].nil? }]
       end
     end
@@ -59,6 +62,10 @@ module AppleNews
       def optional_property(name, default = nil)
         _optional_property_map[name] = default
         attr_accessor name
+      end
+
+      def property_inflection(name, inflection)
+        _property_inflection[name] = inflection
       end
 
       def properties
