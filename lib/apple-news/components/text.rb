@@ -6,8 +6,7 @@ module AppleNews
       included do
         required_property :text
         optional_properties :anchor, :animation, :behavior, :format,
-                            :identifier, :inlineTextStyles, :layout,
-                            :style, :textStyle
+                            :inlineTextStyles, :textStyle
       end
     end
   end
