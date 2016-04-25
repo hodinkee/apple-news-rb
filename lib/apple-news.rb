@@ -13,6 +13,7 @@ require "apple-news/addition"
 require "apple-news/animation"
 require "apple-news/behavior"
 require "apple-news/component"
+require "apple-news/component_layout"
 require "apple-news/property"
 require "apple-news/scene"
 
