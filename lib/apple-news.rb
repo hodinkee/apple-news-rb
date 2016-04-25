@@ -17,6 +17,7 @@ require "apple-news/layout"
 require "apple-news/metadata"
 require "apple-news/property"
 require "apple-news/scene"
+require "apple-news/style"
 
 module AppleNews
   extend self
