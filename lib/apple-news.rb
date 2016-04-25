@@ -10,6 +10,7 @@ require "apple-news/client"
 require "apple-news/article"
 require "apple-news/metadata"
 require "apple-news/component"
+require "apple-news/property"
 
 module AppleNews
   extend self
