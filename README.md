@@ -1,8 +1,6 @@
-# Apple::News
+# Apple News
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/apple/news`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A fully featured gem for building Apple News documents and interfacing with the Apple News API.
 
 ## Installation
 
@@ -22,7 +20,25 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Building Articles
+
+Articles are built using the `AppleNews::Article` class. All articles must have an ID, title, layout, components, and a default component text style.
+
+``` ruby
+article = AppleNews::Article.new(123)
+article.title = "Check Out Apple News"
+article.layout = AppleNews::Layout.new(columns: 1, width: 1024)
+article.component_text_styles[:default] = AppleNews::Style::ComponentText.new(
+    text_color: '#000000',
+    font_name: "Helvetica Neue"
+)
+article.components << AppleNews::Component::Heading.new(
+    text: "Check Out Apple News"
+)
+
+puts article.as_json
+#=> {"id"=>123, "title"=>"Check Out Apple News", "layout"=>{"columns"=>1, "width"=>1024}, "components"=>[{"text"=>"Check Out Apple News", "role"=>"heading"}], "componentTextStyles"=>{"default"=>{"fontName"=>"Helvetica Neue", "textColor"=>"#000000"}}, "version"=>"1.1", "language"=>"en", "metadata"=>{"generatorName"=>"apple-news-rb", "generatorVersion"=>"0.1.0", "transparentToolbar"=>false}}
+```
 
 ## Development
 
@@ -32,5 +48,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/apple-news.
+Bug reports and pull requests are welcome on GitHub at https://github.com/hodinkee/apple-news-rb.
 

@@ -37,6 +37,8 @@ module AppleNews
             send(key).as_json
           elsif send(key).is_a?(Array)
             send(key).map(&:as_json)
+          elsif send(key).is_a?(Hash)
+            Hash[send(key).map {|k, v| [k.to_s, v.as_json]}]
           else
             send(key)
           end

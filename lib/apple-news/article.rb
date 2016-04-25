@@ -2,7 +2,9 @@ module AppleNews
   class Article
     include Properties
 
-    required_properties :id, :title, :layout, :components, :component_text_styles
+    required_properties :id, :title, :layout
+    required_property :components, []
+    required_property :component_text_styles, {}
 
     required_property :version, "1.1"
     required_property :language, "en"
