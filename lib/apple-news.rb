@@ -9,6 +9,7 @@ require "apple-news/configuration"
 require "apple-news/client"
 require "apple-news/article"
 require "apple-news/metadata"
+require "apple-news/animation"
 require "apple-news/component"
 require "apple-news/property"
 
