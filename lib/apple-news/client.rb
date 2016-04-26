@@ -7,16 +7,30 @@ module AppleNews
     end
 
     def get(url)
-      conn.get(url) do |req|
+      get_conn.get(url) do |req|
         req.headers = headers('GET', url)
+      end
+    end
+
+    def post(url, data)
+      post_conn.post(url) do |req|
+        req.headers = headers('POST', url)
       end
     end
 
     private
 
-    def conn
-      @conn ||= Faraday.new(url: @config.api_base) do |faraday|
+    def get_conn
+      @get_conn ||= Faraday.new(url: @config.api_base) do |faraday|
         faraday.request :json
+        faraday.response :json
+        faraday.adapter Faraday.default_adapter
+      end
+    end
+
+    def post_conn
+      @post_conn ||= Faraday.new(url: @config.api_base) do |faraday|
+        faraday.request :multipart
         faraday.response :json
         faraday.adapter Faraday.default_adapter
       end
