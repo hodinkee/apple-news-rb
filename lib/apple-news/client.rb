@@ -7,9 +7,8 @@ module AppleNews
     end
 
     def get(url)
-      conn.get do |req|
-        req.url = url
-        req.headers = headers
+      conn.get(url) do |req|
+        req.headers = headers('GET', url)
       end
     end
 

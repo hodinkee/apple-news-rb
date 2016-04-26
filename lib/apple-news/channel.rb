@@ -1,18 +1,28 @@
 module AppleNews
   class Channel
-    attr_reader :channel_id
+    include Resource
+    include Links
 
-    def initialize(channel_id)
+    attr_reader :id, :type, :name, :website, :links, :created_at, :modified_at,
+                :default_section
+
+    def initialize(id, data = nil)
+      @id = id
       @client = AppleNews::Client.new
-      @data = {}
-      
-      hydrate!
+      @url = "/channels/#{id}"
+
+      data.nil? ? hydrate! : process_data(data)
     end
 
-    private
+    def default_section
+      Section.new(section_link_id('defaultSection'))
+    end
 
-    def hydrate!
-      @data = @client.get("/channels/#{channel_id}")
+    def sections
+      data = @client.get("/channels/#{id}/sections")
+      data['data'].map do |section|
+        Section.new(section['id'], section)
+      end
     end
   end
 end
