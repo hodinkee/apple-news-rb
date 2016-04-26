@@ -9,16 +9,20 @@ module AppleNews
   module Component
     extend self
 
-    COMPONENTS = [
-      Author
-    ]
-
     def factory(data)
-      COMPONENTS.each do |component|
+      components.each do |component|
         if component.role == data[:role]
           return component.new(data)
         end
       end
+    end
+
+    private
+
+    def components
+      @components ||= self.constants.
+        map { |const| self.const_get(const) }.
+        select { |const| const.name.demodulize != "Base" && const.is_a?(Class) }
     end
   end
 end
