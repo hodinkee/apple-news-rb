@@ -4,10 +4,11 @@ module AppleNews
 
     included do
       private
-      
+
       def hydrate!
-        data = @client.get(@url)
-        process_data(data['data'])
+        request = AppleNews::Request::Get.new(@url)
+        resp = request.call
+        process_data(resp.body['data'])
       end
 
       def process_data(data)

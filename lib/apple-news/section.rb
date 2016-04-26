@@ -7,7 +7,6 @@ module AppleNews
 
     def initialize(id, data = nil)
       @id = id
-      @client = AppleNews::Client.new
       @url = "/sections/#{id}"
 
       data.nil? ? hydrate! : process_data(data)

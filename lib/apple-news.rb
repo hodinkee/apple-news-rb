@@ -3,6 +3,7 @@ require "active_support/concern"
 require "active_support/core_ext/class/attribute"
 require "active_support/core_ext/string/inflections"
 
+require "base64"
 require "faraday"
 require "faraday_middleware"
 
@@ -24,8 +25,9 @@ require "apple-news/style"
 require "apple-news/resource"
 require "apple-news/links"
 require "apple-news/configuration"
-require "apple-news/client"
 require "apple-news/channel"
+require "apple-news/request"
+require "apple-news/security"
 
 module AppleNews
   extend self
