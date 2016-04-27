@@ -6,6 +6,10 @@ module AppleNews
     attr_reader :id, :type, :name, :website, :links, :created_at, :modified_at,
                 :default_section
 
+    def self.current
+      self.new(AppleNews.config.channel_id)
+    end
+
     def initialize(id, data = nil)
       @id = id
       @url = "/channels/#{id}"
