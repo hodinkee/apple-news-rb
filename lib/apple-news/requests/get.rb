@@ -12,7 +12,7 @@ module AppleNews
         conn.get do |req|
           req.url @url
           req.headers = headers
-          req.params = {}
+          req.params = params
         end
       end
 

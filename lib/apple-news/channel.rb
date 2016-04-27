@@ -18,7 +18,7 @@ module AppleNews
     end
 
     def sections
-      request = AppleNews::Request::Get.new("/channels/#{id}/sections")
+      request = Request::Get.new("/channels/#{id}/sections")
       resp = request.call
       resp.body['data'].map do |section|
         Section.new(section['id'], section)
@@ -26,7 +26,7 @@ module AppleNews
     end
 
     def articles(params = {})
-      request = AppleNews::Request::Get.new("/channels/#{id}/articles")
+      request = Request::Get.new("/channels/#{id}/articles")
       resp = request.call(params)
       resp.body['data'].map do |article|
         Article.new(article['id'], article)

@@ -15,5 +15,13 @@ module AppleNews
     def channel
       Channel.new(channel_link_id('channel'))
     end
+
+    def articles(params = {})
+      request = Request::Get.new("/sections/#{id}/articles")
+      resp = request.call(params)
+      resp.body['data'].map do |article|
+        Article.new(article['id'], article)
+      end
+    end
   end
 end
