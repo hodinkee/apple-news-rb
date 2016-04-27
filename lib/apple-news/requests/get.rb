@@ -8,10 +8,11 @@ module AppleNews
         @url = url
       end
 
-      def call
+      def call(params = {})
         conn.get do |req|
           req.url @url
           req.headers = headers
+          req.params = {}
         end
       end
 

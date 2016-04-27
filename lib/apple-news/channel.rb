@@ -24,5 +24,13 @@ module AppleNews
         Section.new(section['id'], section)
       end
     end
+
+    def articles(params = {})
+      request = AppleNews::Request::Get.new("/channels/#{id}/articles")
+      resp = request.call(params)
+      resp.body['data'].map do |article|
+        Article.new(article['id'], article)
+      end
+    end
   end
 end

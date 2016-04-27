@@ -2,10 +2,12 @@ module AppleNews
   module Properties
     extend ActiveSupport::Concern
 
-    def initialize(opts = {})
-      opts = ActiveSupport::HashWithIndifferentAccess.new(opts)
-      self.class.properties.each do |prop, default|
-        instance_variable_set "@#{prop}", opts.fetch(prop, default)
+    def initialize(opts = nil)
+      if !opts.nil?
+        opts = ActiveSupport::HashWithIndifferentAccess.new(opts)
+        self.class.properties.each do |prop, default|
+          instance_variable_set "@#{prop}", opts.fetch(prop, default)
+        end
       end
     end
 
