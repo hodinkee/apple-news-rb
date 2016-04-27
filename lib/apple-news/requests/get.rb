@@ -9,7 +9,8 @@ module AppleNews
       end
 
       def call
-        conn.get(url) do |req|
+        conn.get do |req|
+          req.url @url
           req.headers = headers
         end
       end

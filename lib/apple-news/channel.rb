@@ -18,8 +18,9 @@ module AppleNews
     end
 
     def sections
-      data = @client.get("/channels/#{id}/sections")
-      data['data'].map do |section|
+      request = AppleNews::Request::Get.new("/channels/#{id}/sections")
+      resp = request.call
+      resp.body['data'].map do |section|
         Section.new(section['id'], section)
       end
     end

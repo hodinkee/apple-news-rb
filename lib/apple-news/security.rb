@@ -6,7 +6,7 @@ module AppleNews
       @config = AppleNews.config
 
       @method = method.upcase
-      @url = url
+      @url = "#{@config.api_base}#{url}"
       @date = Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
       @content_type = nil
       @content_body = nil

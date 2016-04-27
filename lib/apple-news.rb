@@ -27,6 +27,7 @@ require "apple-news/links"
 require "apple-news/configuration"
 require "apple-news/channel"
 require "apple-news/request"
+require "apple-news/section"
 require "apple-news/security"
 
 module AppleNews
