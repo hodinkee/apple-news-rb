@@ -19,7 +19,7 @@ module AppleNews
     def articles(params = {})
       request = Request::Get.new("/sections/#{id}/articles")
       resp = request.call(params)
-      resp.body['data'].map do |article|
+      resp['data'].map do |article|
         Article.new(article['id'], article)
       end
     end

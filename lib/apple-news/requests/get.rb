@@ -5,29 +5,22 @@ module AppleNews
 
       def initialize(url)
         @config = AppleNews.config
-        @url = url
+        @url = URI::parse(File.join(@config.api_base, url))
       end
 
       def call(params = {})
-        conn.get do |req|
-          req.url @url
-          req.headers = headers
-          req.params = params
-        end
+        http = Net::HTTP.new(@url.hostname, @url.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+
+        res = http.get(@url, headers)
+        JSON.parse(res.body)
       end
 
       private
 
-      def conn
-        Faraday.new(url: @config.api_base) do |faraday|
-          faraday.request :json
-          faraday.response :json
-          faraday.adapter Faraday.default_adapter
-        end
-      end
-
       def headers
-        security = AppleNews::Security.new('GET', @url)
+        security = AppleNews::Security.new('GET', @url.to_s)
         { 'Authorization' => security.authorization }
       end
     end

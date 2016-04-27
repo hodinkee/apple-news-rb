@@ -8,7 +8,7 @@ module AppleNews
       def hydrate!
         request = AppleNews::Request::Get.new(@url)
         resp = request.call
-        process_data(resp.body['data'])
+        process_data(resp['data'])
       end
 
       def process_data(data)

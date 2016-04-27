@@ -4,8 +4,9 @@ require "active_support/core_ext/class/attribute"
 require "active_support/core_ext/string/inflections"
 
 require "base64"
-require "faraday"
-require "faraday_middleware"
+require "json"
+require 'net/http/post/multipart'
+require "mime/types"
 
 require "apple-news/version"
 require "apple-news/properties"

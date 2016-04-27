@@ -12,6 +12,14 @@ module AppleNews
       def add_form_field(name, contents)
         
       end
+
+      private
+
+      def headers
+        security = AppleNews::Security.new('POST', @url)
+        security.content_type = 'multipart/form-data'
+        security
+      end
     end
   end
 end
