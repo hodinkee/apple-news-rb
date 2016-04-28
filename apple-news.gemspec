@@ -24,5 +24,4 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport"
   spec.add_dependency "multipart-post"
-  spec.add_dependency "mime-types", ">= 3.0"
 end
