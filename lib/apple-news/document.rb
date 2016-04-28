@@ -9,6 +9,7 @@ module AppleNews
     include Attachments
     include Metadata
     include Persistence
+    include Resource
 
     attr_accessor :article, :metadata
 

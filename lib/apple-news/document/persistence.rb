@@ -12,6 +12,7 @@ module AppleNews
           }.merge(@files)
 
           resp = request.call
+          article.update_with_data(resp['data'].delete('document'))
         end
 
         private

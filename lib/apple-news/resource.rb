@@ -3,6 +3,10 @@ module AppleNews
     extend ActiveSupport::Concern
 
     included do
+      def update_with_data(data)
+        process_data(data)
+      end
+
       private
 
       def hydrate!
