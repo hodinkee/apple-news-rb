@@ -2,7 +2,7 @@
 
 A fully featured gem for building Apple News documents and interfacing with the Apple News API.
 
-**NOTE:** this is very much a work in progress. There are a lot of things that don't work yet, but the basics are here. You can create and fetch articles, and fetch information about channels and sections.
+**NOTE:** this is very much a work in progress. There are a lot of things that don't work yet, and some things will probbaly change (even drastically), but the basics are here. You can create and fetch articles, and fetch information about channels and sections.
 
 ## Installation
 
