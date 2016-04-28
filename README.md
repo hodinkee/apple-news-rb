@@ -2,6 +2,8 @@
 
 A fully featured gem for building Apple News documents and interfacing with the Apple News API.
 
+**NOTE:** this is very much a work in progress. There are a lot of things that don't work yet, but the basics are here. You can create and fetch articles, and fetch information about channels and sections.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -18,11 +20,7 @@ Or install it yourself as:
 
     $ gem install apple-news
 
-## Usage
-
-Apple News articles are submitted as "bundles", with the article content and attached files together in one request. Because of this, we have the concept of a Document. The Document is the high-level abstraction that contains all of the contents for submission to the Apple News API, as well as the extra metadata that lets us control things like setting whether the article is just a preview or if it's sponsored.
-
-### Configuration
+## Configuration
 
 In order to work with the Apple News API, we have to set a couple of configuration params that are available from [News Publisher](https://www.icloud.com/#newspublisher).
 
@@ -31,6 +29,48 @@ AppleNews.config.channel_id = "63aFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF"
 AppleNews.config.api_key_id = "379FFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF"
 AppleNews.config.api_key_secret = "miJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
 ```
+
+## Fetching Data
+
+### Channels
+
+You can fetch the Channel information by calling:
+
+``` ruby
+channel = AppleNews::Channel.current
+```
+
+Because each channel has a separate API key, there is only ever one channel that you can fetch.
+
+### Sections
+
+You can either fetch sections by their ID, or by fetching all of them through the Channel object.
+
+``` ruby
+section = AppleNews::Section.new(section_id)
+
+# or
+channel = AppleNews::Channel.current
+channel.default_section # for the default section
+channel.sections # for all the sections
+```
+
+### Articles
+
+You can fetch articles either by their ID, their channel, or their section.
+
+``` ruby
+article = AppleNews::Article.new(article_id)
+
+# or
+channel = AppleNews::Channel.current
+channel.articles # all articles in the channel
+channel.default_section.articles # all articles in the default section
+```
+
+## Submitting Articles
+
+Apple News articles are submitted as "bundles", with the article content and attached files together in one request. Because of this, we have the concept of a Document. The Document is the high-level abstraction that contains all of the contents for submission to the Apple News API, as well as the extra metadata that lets us control things like setting whether the article is just a preview or if it's sponsored.
 
 ### Building Articles
 
