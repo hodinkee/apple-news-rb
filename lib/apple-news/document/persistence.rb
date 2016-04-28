@@ -7,8 +7,8 @@ module AppleNews
         def save!
           request = AppleNews::Request::Post.new(endpoint_url)
           request.fields = {
-            'article.json' => json_to_field(article.as_json, "article.json"),
-            'metadata' => json_to_field({ data: @metadata }, "metadata")
+            'metadata' => metadata_field,
+            'article.json' => article_json
           }.merge(@files)
 
           resp = request.call
@@ -24,8 +24,16 @@ module AppleNews
           end
         end
 
-        def json_to_field(data, name)
-          UploadIO.new(StringIO.new(JSON.dump(data)), "application/json", name)
+        def metadata_field
+          JSON.dump({ data: @metadata })
+        end
+
+        def article_json
+          UploadIO.new(
+            StringIO.new(JSON.dump(article.as_json)),
+            "application/json",
+            "article.json"
+          )
         end
       end
     end

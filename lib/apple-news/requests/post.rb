@@ -14,15 +14,22 @@ module AppleNews
         http = Net::HTTP.new(@url.hostname, @url.port)
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        # http.set_debug_output $stderr
 
-        res = http.request_post(@url, content_body, headers)
+        res = http.post(@url, content_body, headers)
         JSON.parse(res.body)
       end
 
       private
 
       def multipart
-        @multipart ||= Net::HTTP::Post::Multipart.new(@url.path, @fields)
+        @multipart ||= Net::HTTP::Post::Multipart.new(@url.path, @fields, {
+          parts: {
+            'metadata' => {
+              'Content-Type' => 'application/json'
+            }
+          }
+        })
       end
 
       def content_body
@@ -33,13 +40,17 @@ module AppleNews
 
       def authorization
         security = AppleNews::Security.new('POST', @url)
-        security.content_type = 'multipart/form-data'
+        security.content_type = "multipart/form-data; boundary=#{Net::HTTP::Post::Multipart::DEFAULT_BOUNDARY}"
         security.content_body = content_body
+
         security.authorization
       end
 
       def headers
-        { 'Authorization' => authorization }
+        {
+          'Authorization' => authorization,
+          'Content-Type' => "multipart/form-data; boundary=#{Net::HTTP::Post::Multipart::DEFAULT_BOUNDARY}"
+        }
       end
     end
   end
