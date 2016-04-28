@@ -1,5 +1,3 @@
-require 'stringio'
-
 require 'apple-news/document/attachments'
 require 'apple-news/document/metadata'
 require 'apple-news/document/persistence'
