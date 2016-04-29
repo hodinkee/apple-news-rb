@@ -5,7 +5,7 @@ module AppleNews
 
       included do
         def save!
-          request = AppleNews::Request::Post.new(endpoint_url)
+          request = Request::Post.new(endpoint_url)
           request.fields = {
             'metadata' => metadata_field,
             'article.json' => document_json
@@ -27,7 +27,7 @@ module AppleNews
         alias_method :saved?, :persisted?
 
         def delete!
-          request = AppleNews::Request::Delete.new(endpoint_url)
+          request = Request::Delete.new(endpoint_url)
           resp = request.call
 
           return resp['errors'] if resp.is_a?(Hash) && resp.has_key?('errors')
