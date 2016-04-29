@@ -106,7 +106,7 @@ component.url = "https://www.instagram.com/p/BB7mr0hsS4U/"
 
 ### Creating an Article
 
-An article must have a document. Once it's created, you can set metadata flags and add files to the article bundle.
+An article must have a document. Once it's created, you can add files to the article bundle.
 
 ``` ruby
 article = AppleNews::Article.new(nil, document: document)
@@ -118,11 +118,24 @@ article.add_file_at_path("/path/to/image.jpg")
 article.add_string_as_file("image.jpg", image_contents, "image/jpeg")
 ```
 
-### Saving a Document
+### Saving an Article
 
 Once you have your document built, you can submit it to the API.
 
 ```
+article.save!
+```
+
+It will return `true` if saving succeeds, otherwise it will return an array of errors as provided by the API.
+
+### Updating an Article
+
+Updating an article works the same as creating an article.
+
+``` ruby
+article = AppleNews::Article.new("25c4666a-26d9-48c0-88c1-d8c84fa94ecd")
+article.document.title = "New Title!"
+article.is_preview = false
 article.save!
 ```
 
