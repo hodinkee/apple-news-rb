@@ -10,7 +10,8 @@ module AppleNews
     include Resource
     include Properties
 
-    optional_properties :is_sponsored, :is_preview, :accessory_text, :links
+    optional_properties :is_sponsored, :is_preview, :accessory_text, :revision
+    optional_property :links, {}
 
     attr_reader :id
     attr_accessor :document
