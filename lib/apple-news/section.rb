@@ -3,13 +3,13 @@ module AppleNews
     include Resource
     include Links
 
-    attr_reader :id, :type, :name, :is_default, :links, :created_at, :modified_at
+    attr_reader :id, :type, :name, :is_default, :links, :created_at, :modified_at, :share_url
 
     def initialize(id, data = nil)
       @id = id
       @resource_path = "/sections"
 
-      data.nil? ? hydrate! : process_data(data)
+      data.nil? ? hydrate! : set_read_only_properties(data)
     end
 
     def channel

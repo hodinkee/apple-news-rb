@@ -38,7 +38,7 @@ module AppleNews
     def hydrate!
       data = fetch_data['data']
       @document = Document.new(data.delete('document'))
-      process_data(data)
+      load_properties(data)
     end
   end
 end

@@ -3,24 +3,26 @@ module AppleNews
     extend ActiveSupport::Concern
 
     def initialize(opts = nil)
-      if !opts.nil?
-        opts = ActiveSupport::HashWithIndifferentAccess.new(opts)
-        self.class.properties.each do |prop, settings|
-          val = if !settings[:klass].nil?
-            assigned_val = opts.fetch(prop, settings[:default])
-            if settings[:default].is_a?(Array)
-              assigned_val.map { |v| settings[:klass].send(settings[:init_method], v) }
-            elsif settings[:default].is_a?(Hash)
-              Hash[assigned_val.map { |k, v| [k, settings[:klass].send(settings[:init_method], v)]}]
-            else
-              settings[:klass].send(settings[:init_method], assigned_val)
-            end
-          else
-            opts.fetch(prop, settings[:default])
-          end
+      load_properties(opts) if !opts.nil?
+    end
 
-          instance_variable_set "@#{prop}", val
+    def load_properties(opts)
+      opts = ActiveSupport::HashWithIndifferentAccess.new(opts)
+      self.class.properties.each do |prop, settings|
+        val = if !settings[:klass].nil?
+          assigned_val = opts.fetch(prop, settings[:default])
+          if settings[:default].is_a?(Array)
+            assigned_val.map { |v| settings[:klass].send(settings[:init_method], v) }
+          elsif settings[:default].is_a?(Hash)
+            Hash[assigned_val.map { |k, v| [k, settings[:klass].send(settings[:init_method], v)]}]
+          else
+            settings[:klass].send(settings[:init_method], assigned_val)
+          end
+        else
+          opts.fetch(prop, settings[:default])
         end
+
+        instance_variable_set "@#{prop}", val
       end
     end
 

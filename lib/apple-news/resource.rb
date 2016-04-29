@@ -4,7 +4,7 @@ module AppleNews
 
     included do
       def update_with_data(data)
-        process_data(data)
+        load_properties(data)
       end
 
       def resource_url
@@ -14,7 +14,11 @@ module AppleNews
       private
 
       def hydrate!
-        process_data(fetch_data['data'])
+        if respond_to?(:load_properties)
+          load_properties(fetch_data['data'])
+        else
+          set_read_only_properties(fetch_data['data'])
+        end
       end
 
       def fetch_data
@@ -22,7 +26,7 @@ module AppleNews
         request.call
       end
 
-      def process_data(data)
+      def set_read_only_properties(data)
         data.each do |k, v|
           instance_variable_set("@#{k.underscore}", v)
         end

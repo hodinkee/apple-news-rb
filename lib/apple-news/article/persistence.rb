@@ -12,13 +12,20 @@ module AppleNews
           }.merge(@files)
 
           resp = request.call
-          update_with_data(resp['data'])
+
+          @id = resp['data']['id']
+          load_properties(resp['data'])
         end
+
+        def persisted?
+          !@id.nil?
+        end
+        alias_method :saved?, :persisted?
 
         private
 
         def endpoint_url
-          if article.persisted?
+          if persisted?
             "/articles/#{id}"
           else
             "/channels/#{AppleNews.config.channel_id}/articles"
@@ -26,7 +33,7 @@ module AppleNews
         end
 
         def metadata_field
-          JSON.dump({ data: @metadata })
+          JSON.dump({ data: self.as_json })
         end
 
         def document_json

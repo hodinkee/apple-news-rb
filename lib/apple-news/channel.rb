@@ -4,7 +4,7 @@ module AppleNews
     include Links
 
     attr_reader :id, :type, :name, :website, :links, :created_at, :modified_at,
-                :default_section
+                :default_section, :share_url
 
     def self.current
       self.new(AppleNews.config.channel_id)
@@ -14,7 +14,7 @@ module AppleNews
       @id = id
       @resource_path = "/channels"
 
-      data.nil? ? hydrate! : process_data(data)
+      data.nil? ? hydrate! : set_read_only_properties(data)
     end
 
     def default_section
