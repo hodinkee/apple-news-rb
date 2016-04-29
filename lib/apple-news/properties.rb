@@ -5,8 +5,21 @@ module AppleNews
     def initialize(opts = nil)
       if !opts.nil?
         opts = ActiveSupport::HashWithIndifferentAccess.new(opts)
-        self.class.properties.each do |prop, default|
-          instance_variable_set "@#{prop}", opts.fetch(prop, default)
+        self.class.properties.each do |prop, settings|
+          val = if !settings[:klass].nil?
+            assigned_val = opts.fetch(prop, settings[:default])
+            if settings[:default].is_a?(Array)
+              assigned_val.map { |v| settings[:klass].send(settings[:init_method], v) }
+            elsif settings[:default].is_a?(Hash)
+              Hash[assigned_val.map { |k, v| [k, settings[:klass].send(settings[:init_method], v)]}]
+            else
+              settings[:klass].send(settings[:init_method], assigned_val)
+            end
+          else
+            opts.fetch(prop, settings[:default])
+          end
+
+          instance_variable_set "@#{prop}", val
         end
       end
     end
@@ -61,8 +74,8 @@ module AppleNews
         args.each { |arg| required_property(arg) }
       end
 
-      def required_property(name, default = nil)
-        _required_property_map[name] = default
+      def required_property(name, default = nil, klass = nil, init_method = :new)
+        _required_property_map[name] = { default: default, klass: klass, init_method: init_method }
         attr_accessor name
       end
 
@@ -70,8 +83,8 @@ module AppleNews
         args.each { |arg| optional_property(arg) }
       end
 
-      def optional_property(name, default = nil)
-        _optional_property_map[name] = default
+      def optional_property(name, default = nil, klass = nil, init_method = :new)
+        _optional_property_map[name] = { default: default, klass: klass, init_method: init_method }
         attr_accessor name
       end
 

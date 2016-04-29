@@ -15,6 +15,8 @@ module AppleNews
           return component.new(data)
         end
       end
+
+      nil
     end
 
     private

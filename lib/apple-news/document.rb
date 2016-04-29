@@ -5,8 +5,9 @@ module AppleNews
     attr_accessor :id
 
     required_properties :identifier, :title, :layout
-    required_property :components, []
-    required_property :component_text_styles, {}
+    required_property :layout, nil, Layout
+    required_property :components, [], Component, :factory
+    required_property :component_text_styles, {}, Style::ComponentText
 
     required_property :version, "1.1"
     required_property :language, "en"
