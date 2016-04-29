@@ -8,12 +8,11 @@ module AppleNews
           request = AppleNews::Request::Post.new(endpoint_url)
           request.fields = {
             'metadata' => metadata_field,
-            'article.json' => article_json
+            'article.json' => document_json
           }.merge(@files)
 
           resp = request.call
-          article.update_with_data(resp['data'].delete('document'))
-          article.id = reqp['data']['id']
+          update_with_data(resp['data'])
         end
 
         private
@@ -30,9 +29,9 @@ module AppleNews
           JSON.dump({ data: @metadata })
         end
 
-        def article_json
+        def document_json
           UploadIO.new(
-            StringIO.new(JSON.dump(article.as_json)),
+            StringIO.new(JSON.dump(document.as_json)),
             "application/json",
             "article.json"
           )

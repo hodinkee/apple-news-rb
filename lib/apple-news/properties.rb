@@ -14,12 +14,10 @@ module AppleNews
     included do
       class_attribute :_required_property_map
       class_attribute :_optional_property_map
-      class_attribute :_read_only_property_map
       class_attribute :_property_inflection
 
       self._required_property_map ||= {}
       self._optional_property_map ||= {}
-      self._read_only_property_map ||= {}
       self._property_inflection ||= {}
 
       def valid?
@@ -74,15 +72,6 @@ module AppleNews
 
       def optional_property(name, default = nil)
         _optional_property_map[name] = default
-        attr_accessor name
-      end
-
-      def read_only_properties(*args)
-        args.each { |arg| read_only_property(arg) }
-      end
-
-      def read_only_property(name)
-        _read_only_property_map[name] = nil
         attr_accessor name
       end
 

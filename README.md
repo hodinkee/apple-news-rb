@@ -109,7 +109,7 @@ component.url = "https://www.instagram.com/p/BB7mr0hsS4U/"
 An article must have a document. Once it's created, you can set metadata flags and add files to the article bundle.
 
 ``` ruby
-article = AppleNews::Article.new(document)
+article = AppleNews::Article.new(nil, document: document)
 article.is_preview = true
 
 # There are 3 different ways you can add a file to the document

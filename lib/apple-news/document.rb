@@ -1,6 +1,5 @@
 module AppleNews
   class Document
-    include Resource
     include Properties
 
     attr_accessor :id
@@ -15,16 +14,9 @@ module AppleNews
     optional_properties :advertising_settings, :subtitle, :metadata, :document_style,
                         :text_styles, :component_layouts, :component_styles
 
-    def initialize(id = nil, opts = nil)
-      super(opts)
-
-      @id = id
+    def initialize(opts = nil)
+      super
       @metadata = Metadata.new((opts || {}).fetch(:metadata, {}))
     end
-
-    def persisted?
-      !@id.nil?
-    end
-    alias_method :saved?, :persisted?
   end
 end

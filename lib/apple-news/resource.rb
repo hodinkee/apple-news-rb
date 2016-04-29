@@ -14,9 +14,12 @@ module AppleNews
       private
 
       def hydrate!
+        process_data(fetch_data['data'])
+      end
+
+      def fetch_data
         request = AppleNews::Request::Get.new(resource_url)
-        resp = request.call
-        process_data(resp['data'])
+        request.call
       end
 
       def process_data(data)

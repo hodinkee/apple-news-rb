@@ -33,7 +33,7 @@ module AppleNews
       request = Request::Get.new("/channels/#{id}/articles")
       resp = request.call(params)
       resp['data'].map do |article|
-        Article.new(article['id'], article)
+        Article.new(article['id'])
       end
     end
   end

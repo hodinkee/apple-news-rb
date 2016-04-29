@@ -12,24 +12,33 @@ module AppleNews
 
     optional_properties :is_sponsored, :is_preview, :accessory_text, :links
 
+    attr_reader :id
     attr_accessor :document
-    def_delegator :@document, :id
     def_delegator :@document, :title
 
-    def initialize(id_or_document = nil, data = {})
-      @resource_path = "/articles"
-      
-      if id_or_document.is_a?(Document)
-        @document = id_or_document
-      else
-        @document = Document.new(id_or_document, data.fetch('document', nil))
-      end
+    def initialize(id = nil, data = {})
+      super(data)
 
+      @resource_path = "/articles"
+      @id = id
+
+      document = (data[:document] || data['document'])
+      @document = document.is_a?(AppleNews::Document) ? document : Document.new(document)
       @files = {}
-      @share_url = data.fetch('shareUrl', nil)
-      @state = data.fetch('state', nil)
+
+      # These are read-only properties that are not submitted to the API
+      @share_url = data['shareUrl']
+      @state = data['state']
 
       hydrate! if !id.nil? && data.keys.size == 0
+    end
+
+    private
+
+    def hydrate!
+      data = fetch_data['data']
+      @document = Document.new(data.delete('document'))
+      process_data(data)
     end
   end
 end
