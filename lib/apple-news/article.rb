@@ -17,6 +17,8 @@ module AppleNews
     def_delegator :@document, :title
 
     def initialize(id_or_document = nil, data = {})
+      @resource_path = "/articles"
+      
       if id_or_document.is_a?(Document)
         @document = id_or_document
       else

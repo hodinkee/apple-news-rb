@@ -12,7 +12,7 @@ module AppleNews
 
     def initialize(id, data = nil)
       @id = id
-      @url = "/channels/#{id}"
+      @resource_path = "/channels"
 
       data.nil? ? hydrate! : process_data(data)
     end

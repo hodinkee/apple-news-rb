@@ -7,10 +7,14 @@ module AppleNews
         process_data(data)
       end
 
+      def resource_url
+        File.join(@resource_path, id)
+      end
+
       private
 
       def hydrate!
-        request = AppleNews::Request::Get.new(@url)
+        request = AppleNews::Request::Get.new(resource_url)
         resp = request.call
         process_data(resp['data'])
       end
