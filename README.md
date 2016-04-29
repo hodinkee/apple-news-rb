@@ -139,6 +139,17 @@ article.is_preview = false
 article.save!
 ```
 
+## Deleting Articles
+
+You can easily delete articles once they're fetched.
+
+``` ruby
+article = AppleNews::Article.new("25c4666a-26d9-48c0-88c1-d8c84fa94ecd")
+article.delete!
+```
+
+This will return true when successful, otherwise it will return an array of errors as provided by the API.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
