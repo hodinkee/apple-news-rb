@@ -17,6 +17,7 @@ module AppleNews
         # http.set_debug_output $stderr
 
         res = http.post(@url, content_body, headers)
+        # puts JSON.parse(res.body)
         JSON.parse(res.body)
       end
 

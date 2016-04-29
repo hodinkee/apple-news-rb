@@ -13,8 +13,12 @@ module AppleNews
 
           resp = request.call
 
+          return resp['errors'] if resp.has_key?('errors')
+
           @id = resp['data']['id']
           load_properties(resp['data'])
+
+          true
         end
 
         def persisted?
