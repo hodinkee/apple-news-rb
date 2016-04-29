@@ -26,6 +26,16 @@ module AppleNews
         end
         alias_method :saved?, :persisted?
 
+        def delete!
+          request = AppleNews::Request::Delete.new(endpoint_url)
+          resp = request.call
+
+          return resp['errors'] if resp.is_a?(Hash) && resp.has_key?('errors')
+          @id = nil
+
+          true
+        end
+
         private
 
         def endpoint_url
