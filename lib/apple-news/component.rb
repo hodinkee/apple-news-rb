@@ -10,6 +10,8 @@ module AppleNews
     extend self
 
     def factory(data)
+      return if data.nil?
+      
       components.each do |component|
         if component.role == data[:role]
           return component.new(data)

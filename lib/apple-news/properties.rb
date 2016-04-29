@@ -16,7 +16,7 @@ module AppleNews
           elsif settings[:default].is_a?(Hash)
             Hash[assigned_val.map { |k, v| [k, settings[:klass].send(settings[:init_method], v)]}]
           else
-            settings[:klass].send(settings[:init_method], assigned_val)
+            assigned_val.nil? ? nil : settings[:klass].send(settings[:init_method], assigned_val)
           end
         else
           opts.fetch(prop, settings[:default])

@@ -3,7 +3,9 @@ module AppleNews
     class Base
       include Properties
 
-      optional_properties :identifier, :layout, :style
+      optional_property :identifier
+      optional_property :layout, nil, ComponentLayout
+      optional_property :style, nil, Style::Component
 
       def self.role(val = nil)
         val.nil? ? _required_property_map[:role][:default] : required_property(:role, val)

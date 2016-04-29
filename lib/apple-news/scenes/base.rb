@@ -4,7 +4,7 @@ module AppleNews
       include Properties
 
       def self.type(val = nil)
-        val.nil? ? _required_property_map[:type] : required_property(:type, val)
+        val.nil? ? _required_property_map[:type][:default] : required_property(:type, val)
       end
 
       def type
