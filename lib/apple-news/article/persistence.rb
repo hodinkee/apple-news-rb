@@ -1,5 +1,5 @@
 module AppleNews
-  class Document
+  class Article
     module Persistence
       extend ActiveSupport::Concern
 
@@ -13,6 +13,7 @@ module AppleNews
 
           resp = request.call
           article.update_with_data(resp['data'].delete('document'))
+          article.id = reqp['data']['id']
         end
 
         private

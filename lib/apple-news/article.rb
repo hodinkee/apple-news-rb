@@ -1,33 +1,33 @@
+require 'apple-news/article/attachments'
+require 'apple-news/article/persistence'
+
 module AppleNews
   class Article
+    extend Forwardable
+
+    include Attachments
+    include Persistence
     include Resource
     include Properties
 
-    attr_reader :id
+    optional_properties :is_sponsored, :is_preview, :accessory_text, :links
 
-    required_properties :identifier, :title, :layout
-    required_property :components, []
-    required_property :component_text_styles, {}
+    attr_accessor :document
+    def_delegator :@document, :id
+    def_delegator :@document, :title
 
-    required_property :version, "1.1"
-    required_property :language, "en"
+    def initialize(id_or_document = nil, data = {})
+      if id_or_document.is_a?(Document)
+        @document = id_or_document
+      else
+        @document = Document.new(id_or_document, data.fetch('document', nil))
+      end
 
-    optional_properties :advertising_settings, :subtitle, :metadata, :document_style,
-                        :text_styles, :component_layouts, :component_styles
+      @files = {}
+      @share_url = data.fetch('shareUrl', nil)
+      @state = data.fetch('state', nil)
 
-    def initialize(id = nil, opts = nil)
-      super(opts)
-
-      @id = id
-      @url = "/articles/#{id}"
-      @metadata = Metadata.new((opts || {}).fetch(:metadata, {}))
-
-      hydrate! if !id.nil? && opts.nil?
+      hydrate! if !id.nil? && data.keys.size == 0
     end
-
-    def persisted?
-      !@id.nil?
-    end
-    alias_method :saved?, :persisted?
   end
 end

@@ -1,5 +1,5 @@
 module AppleNews
-  class Document
+  class Article
     module Attachments
       extend ActiveSupport::Concern
 
