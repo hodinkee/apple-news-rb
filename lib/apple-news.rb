@@ -9,6 +9,7 @@ require "json"
 require 'net/http/post/multipart'
 require 'apple-news/multipart_post_patch'
 require 'stringio'
+require 'open-uri'
 
 require "apple-news/version"
 require "apple-news/properties"
