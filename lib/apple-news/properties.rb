@@ -11,10 +11,13 @@ module AppleNews
       self.class.properties.each do |prop, settings|
         val = if !settings[:klass].nil?
           assigned_val = opts.fetch(prop, settings[:default])
+          
           if settings[:default].is_a?(Array)
             assigned_val.map { |v| settings[:klass].send(settings[:init_method], v) }
           elsif settings[:default].is_a?(Hash)
             Hash[assigned_val.map { |k, v| [k, settings[:klass].send(settings[:init_method], v)]}]
+          elsif !assigned_val.nil? && !assigned_val.is_a?(Class)
+            assigned_val
           else
             assigned_val.nil? ? nil : settings[:klass].send(settings[:init_method], assigned_val)
           end
