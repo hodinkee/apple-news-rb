@@ -13,9 +13,13 @@ module AppleNews
           assigned_val = opts.fetch(prop, settings[:default])
           
           if settings[:default].is_a?(Array)
-            assigned_val.map { |v| settings[:klass].send(settings[:init_method], v) }
+            assigned_val.map { |v|
+              v.is_a?(Hash) ? settings[:klass].send(settings[:init_method], v) : v
+            }
           elsif settings[:default].is_a?(Hash)
-            Hash[assigned_val.map { |k, v| [k, settings[:klass].send(settings[:init_method], v)]}]
+            Hash[assigned_val.map { |k, v|
+              [k, v.is_a?(Hash) ? settings[:klass].send(settings[:init_method], v) : v]
+            }]
           elsif !assigned_val.nil? && !assigned_val.is_a?(Class)
             assigned_val
           else
