@@ -3,11 +3,11 @@ module AppleNews
     extend ActiveSupport::Concern
 
     def initialize(opts = nil)
-      load_properties(opts) if !opts.nil?
+      load_properties(opts)
     end
 
     def load_properties(opts)
-      opts = ActiveSupport::HashWithIndifferentAccess.new(opts)
+      opts = ActiveSupport::HashWithIndifferentAccess.new(opts || {})
       self.class.properties.each do |prop, settings|
         val = if !settings[:klass].nil?
           assigned_val = opts.fetch(prop, settings[:default])
@@ -65,7 +65,7 @@ module AppleNews
             send(key)
           end
 
-          [json_key, val]
+          [json_key, val.blank? ? nil : val]
         }.reject { |p| p[1].nil? }]
       end
     end
