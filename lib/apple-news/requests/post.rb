@@ -14,10 +14,12 @@ module AppleNews
         http = Net::HTTP.new(@url.hostname, @url.port)
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        # http.set_debug_output $stderr
+
+        # The API can be really slow, sometimes.
+        http.read_timeout = 120
+        
 
         res = http.post(@url, content_body, headers)
-        # puts JSON.parse(res.body)
         JSON.parse(res.body)
       end
 
