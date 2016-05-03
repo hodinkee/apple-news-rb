@@ -13,7 +13,7 @@ module AppleNews
     optional_properties :is_sponsored, :is_preview, :accessory_text, :revision
     optional_property :links, {}
 
-    attr_reader :id
+    attr_reader :id, :share_url, :state
     attr_accessor :document
     def_delegator :@document, :title
 
@@ -38,7 +38,12 @@ module AppleNews
 
     def hydrate!
       data = fetch_data['data']
+      
+      # Some special properties that need to be manually set.
       @document = Document.new(data.delete('document'))
+      @share_url = data.delete('share_url')
+      @state = data.delete('state')
+
       load_properties(data)
     end
   end
