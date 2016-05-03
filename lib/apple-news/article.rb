@@ -41,7 +41,7 @@ module AppleNews
       
       # Some special properties that need to be manually set.
       @document = Document.new(data.delete('document'))
-      @share_url = data.delete('share_url')
+      @share_url = data.delete('shareUrl')
       @state = data.delete('state')
 
       load_properties(data)
