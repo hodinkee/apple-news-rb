@@ -34,6 +34,11 @@ module AppleNews
       hydrate! if !id.nil? && data.keys.size == 0
     end
 
+    def reload
+      return false if id.nil?
+      hydrate!
+    end
+
     private
 
     def hydrate!
