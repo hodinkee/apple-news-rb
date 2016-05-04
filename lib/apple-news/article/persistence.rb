@@ -36,6 +36,20 @@ module AppleNews
           true
         end
 
+        def save_to_disk!(path)
+          FileUtils.mkdir_p(path)
+
+          # Write the article.json
+          File.write(File.join(path, "article.json"), JSON.dump(document.as_json))
+
+          # Write all of the bundled files
+          @files.each do |name, file|
+            File.write(File.join(path, name), file.read)
+          end
+
+          true
+        end
+
         private
 
         def endpoint_url
