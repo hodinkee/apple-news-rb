@@ -44,7 +44,16 @@ module AppleNews
 
           # Write all of the bundled files
           @files.each do |name, file|
-            File.write(File.join(path, name), file.read)
+            if file.respond_to?(:path)
+              FileUtils.cp(file.path, File.join(path, name))
+            else
+              infile = file.io.is_a?(StringIO) ? file.io : File.new(file.io, 'rb')
+              outfile = File.new(File.join(path, name), 'wb')
+
+              outfile.write(infile.read)
+              infile.close
+              outfile.close
+            end
           end
 
           true

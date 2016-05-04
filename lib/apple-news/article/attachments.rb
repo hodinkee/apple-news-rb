@@ -12,11 +12,11 @@ module AppleNews
         end
 
         def add_file_at_path(path)
-          add_file(File.new(path))
+          add_file(File.new(path, 'rb'))
         end
 
         def add_string_as_file(name, contents, mime)
-          @files[name] = UploadIO.new(StringIO.new(contents), mime, name)
+          @files[name] = UploadIO.new(StringIO.new(contents, 'rb'), mime, name)
         end
 
         def add_file_at_url(name, url, mime)
