@@ -1,11 +1,10 @@
 module AppleNews
   module Component
-    class Map < Base
-      role "map"
+    class Place < Base
+      role "place"
+
       optional_properties :latitude, :longitude, :caption, :map_type,
                           :span
-
-      optional_property :items, []
     end
   end
 end
