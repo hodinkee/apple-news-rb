@@ -3,6 +3,7 @@ require "apple-news/components/text"
 require "apple-news/components/audio"
 require "apple-news/components/image"
 require "apple-news/components/scalable_image"
+require "apple-news/components/container"
 Dir["#{File.dirname(__FILE__)}/components/*.rb"].each { |path| require path }
 
 module AppleNews
