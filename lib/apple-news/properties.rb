@@ -11,7 +11,7 @@ module AppleNews
       self.class.properties.each do |prop, settings|
         val = if !settings[:klass].nil?
           assigned_val = opts.fetch(prop, settings[:default])
-          
+
           if settings[:default].is_a?(Array)
             assigned_val.map { |v|
               v.is_a?(Hash) ? settings[:klass].send(settings[:init_method], v) : v
@@ -69,7 +69,7 @@ module AppleNews
             send(key)
           end
 
-          [json_key, val.blank? ? nil : val]
+          [json_key, val.blank? && val != false ? nil : val]
         }.reject { |p| p[1].nil? }]
       end
     end
