@@ -10,18 +10,19 @@ module AppleNews
     include Resource
     include Properties
 
-    optional_properties :is_sponsored, :is_preview, :accessory_text, :revision
+    optional_properties :is_sponsored, :is_preview, :accessory_text, :revision, :type
     optional_property :links, {}
 
     attr_reader :id, :share_url, :state
     attr_accessor :document
     def_delegator :@document, :title
 
-    def initialize(id = nil, data = {})
+    def initialize(id = nil, data = {}, config = AppleNews.config)
       super(data)
 
-      @resource_path = "/articles"
       @id = id
+      @config = config
+      @resource_path = "/articles"
 
       document = (data[:document] || data['document'])
       @document = document.is_a?(AppleNews::Document) ? document : Document.new(document)
