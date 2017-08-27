@@ -7,7 +7,9 @@ module AppleNews
                 :default_section, :share_url
 
     def self.current
-      self.new(AppleNews.config.channel_id)
+      warn 'DEPRECATION WARNING: `AppleNews::Channel.current` is deprecated. '\
+           'Please use `AppleNews.config.channel` instead.'
+      AppleNews.config.channel
     end
 
     def initialize(id, data = nil, config = AppleNews.config)

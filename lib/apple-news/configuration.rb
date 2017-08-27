@@ -8,5 +8,9 @@ module AppleNews
       @api_key_secret = attributes[:api_key_secret]
       @api_base       = attributes[:api_base] || 'https://news-api.apple.com'
     end
+
+    def channel
+      AppleNews::Channel.new(channel_id, nil, self)
+    end
   end
 end

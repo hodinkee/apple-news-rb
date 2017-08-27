@@ -35,10 +35,19 @@ AppleNews.config.api_key_secret = "miJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
 You can fetch the Channel information by calling:
 
 ``` ruby
-channel = AppleNews::Channel.current
+channel = AppleNews.config.channel
 ```
 
-Because each channel has a separate API key, there is only ever one channel that you can fetch.
+If working with multiple channels:
+
+```ruby
+config = AppleNews::Configuration.new(
+  channel_id:     '...',
+  api_key_id:     '...',
+  api_key_secret: '...'
+)
+channel = config.channel
+```
 
 ### Sections
 
@@ -48,7 +57,7 @@ You can either fetch sections by their ID, or by fetching all of them through th
 section = AppleNews::Section.new(section_id)
 
 # or
-channel = AppleNews::Channel.current
+channel = AppleNews.config.channel
 channel.default_section # for the default section
 channel.sections # for all the sections
 ```
@@ -61,7 +70,7 @@ You can fetch articles either by their ID, their channel, or their section.
 article = AppleNews::Article.new(article_id)
 
 # or
-channel = AppleNews::Channel.current
+channel = AppleNews.config.channel
 channel.articles # all articles in the channel
 channel.default_section.articles # all articles in the default section
 ```
