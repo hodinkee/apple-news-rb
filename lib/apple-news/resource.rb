@@ -33,7 +33,7 @@ module AppleNews
 
       def set_read_only_properties(data)
         data.each do |k, v|
-          instance_variable_set("@#{k.underscore}", v)
+          instance_variable_set("@#{k.to_s.underscore}", v)
         end
       end
     end

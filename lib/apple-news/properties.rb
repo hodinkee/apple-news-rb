@@ -9,8 +9,9 @@ module AppleNews
     def load_properties(opts)
       opts = ActiveSupport::HashWithIndifferentAccess.new(opts || {})
       self.class.properties.each do |prop, settings|
+        camelized_prop = prop.to_s.camelize(:lower)
         val = if !settings[:klass].nil?
-          assigned_val = opts.fetch(prop, settings[:default])
+          assigned_val = opts.fetch(camelized_prop, settings[:default])
 
           if settings[:default].is_a?(Array)
             assigned_val.map { |v|
@@ -26,7 +27,7 @@ module AppleNews
             assigned_val.nil? ? nil : settings[:klass].send(settings[:init_method], assigned_val)
           end
         else
-          opts.fetch(prop, settings[:default])
+          opts.fetch(camelized_prop, settings[:default])
         end
 
         instance_variable_set "@#{prop}", val
