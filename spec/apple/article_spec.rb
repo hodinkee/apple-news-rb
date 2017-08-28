@@ -25,7 +25,7 @@ describe AppleNews::Article do
     end
 
     it 'will fetch attributes from the api' do
-      expect(article.type).to eq('article')
+      expect(article.id).to eq('111')
       expect(article.state).to eq('PROCESSING')
     end
 
@@ -38,7 +38,7 @@ describe AppleNews::Article do
     let(:article) { AppleNews::Article.new('111', fixture_data) }
 
     it 'will set data attributes without fetching' do
-      expect(article.type).to eq('article')
+      expect(article.id).to eq('111')
       expect(article.state).to eq('PROCESSING')
     end
 
@@ -52,7 +52,7 @@ describe AppleNews::Article do
     let(:article) { AppleNews::Article.new('111', fixture_data, config) }
 
     it 'will set data attributes without fetching' do
-      expect(article.type).to eq('article')
+      expect(article.id).to eq('111')
       expect(article.state).to eq('PROCESSING')
     end
 
