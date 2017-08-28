@@ -61,6 +61,23 @@ describe AppleNews::Channel do
       section = channel.default_section
       expect(section.config).to be(config)
     end
+
+    it 'will load and hydrate articles' do
+      allow_any_instance_of(AppleNews::Article).to receive(:fetch_data).and_return('data' => {})
+      expect(channel).to receive(:get_request).and_return(
+        'data' => [{ 'id' => '123', 'type' => 'article', 'title' => 'Test Article' }]
+      )
+      article = channel.articles.first
+      expect(article.id).to eq('123')
+    end
+
+    it 'will load articles without hydrating' do
+      expect(channel).to receive(:get_request).and_return(
+        'data' => [{ 'id' => '123', 'type' => 'article', 'title' => 'Test Article' }]
+      )
+      article = channel.articles(hydrate: false).first
+      expect(article.id).to eq('123')
+    end
   end
 
 end

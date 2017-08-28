@@ -25,18 +25,19 @@ module AppleNews
     end
 
     def sections
-      request = Request::Get.new("/channels/#{id}/sections", config)
-      resp = request.call
+      resp = get_request("/channels/#{id}/sections")
       resp['data'].map do |section|
         Section.new(section['id'], section, config)
       end
     end
 
     def articles(params = {})
-      request = Request::Get.new("/channels/#{id}/articles", config)
-      resp = request.call(params)
+      params  = params.with_indifferent_access
+      hydrate = params.delete(:hydrate)
+      resp = get_request("/channels/#{id}/articles", params)
       resp['data'].map do |article|
-        Article.new(article['id'], {}, config)
+        data = hydrate == false ? article : {}
+        Article.new(article['id'], data, config)
       end
     end
   end
