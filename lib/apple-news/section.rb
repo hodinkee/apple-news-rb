@@ -8,7 +8,7 @@ module AppleNews
     def initialize(id, data = nil, config = AppleNews.config)
       @id = id
       @config = config
-      @resource_path = "/sections"
+      @resource_path = '/sections'
 
       data.nil? ? hydrate! : set_read_only_properties(data)
     end
@@ -18,10 +18,12 @@ module AppleNews
     end
 
     def articles(params = {})
-      request = Request::Get.new("/sections/#{id}/articles", config)
-      resp = request.call(params)
+      params  = params.with_indifferent_access
+      hydrate = params.delete(:hydrate)
+      resp = get_request("/sections/#{id}/articles", params)
       resp['data'].map do |article|
-        Article.new(article['id'], {}, config)
+        data = hydrate == false ? article : {}
+        Article.new(article['id'], data, config)
       end
     end
   end

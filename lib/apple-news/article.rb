@@ -1,38 +1,30 @@
 require 'apple-news/article/attachments'
 require 'apple-news/article/persistence'
+require 'apple-news/document'
 
 module AppleNews
   class Article
-    extend Forwardable
-
     include Attachments
     include Persistence
     include Resource
     include Properties
 
-    optional_properties :is_sponsored, :is_preview, :accessory_text, :revision
+    optional_properties :is_sponsored, :is_preview, :accessory_text, :revision,
+                        :maturity_rating, :is_candidate_to_be_featured
     optional_property :links, {}
 
-    attr_reader :id, :share_url, :state
+    attr_reader :id, :type, :title, :share_url, :state, :warnings, :created_at, :modified_at
     attr_accessor :document
-    def_delegator :@document, :title
 
     def initialize(id = nil, data = {}, config = AppleNews.config)
-      super(data)
+      assign_data(data)
 
       @id = id
       @config = config
-      @resource_path = "/articles"
-
-      document = (data[:document] || data['document'])
-      @document = document.is_a?(AppleNews::Document) ? document : Document.new(document)
+      @resource_path = '/articles'
       @files = {}
 
-      # These are read-only properties that are not submitted to the API
-      @share_url = data['shareUrl']
-      @state = data['state']
-
-      hydrate! if !id.nil? && data.keys.size == 0
+      hydrate! if id.present? && data.blank?
     end
 
     def reload
@@ -44,13 +36,17 @@ module AppleNews
 
     def hydrate!
       data = fetch_data['data']
-      
-      # Some special properties that need to be manually set.
-      @document = Document.new(data.delete('document'))
-      @share_url = data.delete('shareUrl')
-      @state = data.delete('state')
+      assign_data(data)
+    end
 
+    def assign_data(data)
+      data = data.with_indifferent_access
+      document = data.delete(:document)
+
+      set_read_only_properties(data)
       load_properties(data)
+
+      @document = document.is_a?(AppleNews::Document) ? document : Document.new(document)
     end
   end
 end

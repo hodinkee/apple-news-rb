@@ -13,6 +13,10 @@ module AppleNews
         File.join(@resource_path, id)
       end
 
+      def get_request(path, params = {})
+        AppleNews::Request::Get.new(path, config).call(params)
+      end
+
       private
 
       def hydrate!
@@ -24,13 +28,12 @@ module AppleNews
       end
 
       def fetch_data
-        request = AppleNews::Request::Get.new(resource_url, config)
-        request.call
+        get_request(resource_url)
       end
 
       def set_read_only_properties(data)
         data.each do |k, v|
-          instance_variable_set("@#{k.underscore}", v)
+          instance_variable_set("@#{k.to_s.underscore}", v)
         end
       end
     end
