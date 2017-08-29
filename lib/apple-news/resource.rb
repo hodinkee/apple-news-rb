@@ -3,6 +3,8 @@ module AppleNews
     extend ActiveSupport::Concern
 
     included do
+      attr_accessor :config
+
       def update_with_data(data)
         load_properties(data)
       end
@@ -22,7 +24,7 @@ module AppleNews
       end
 
       def fetch_data
-        request = AppleNews::Request::Get.new(resource_url)
+        request = AppleNews::Request::Get.new(resource_url, config)
         request.call
       end
 

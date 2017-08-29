@@ -1,12 +1,14 @@
+require 'base64'
+require 'openssl'
+
 module AppleNews
   class Security
     attr_accessor :method, :url, :content_type, :content_body
 
-    def initialize(method, url)
-      @config = AppleNews.config
-
+    def initialize(method, url, config = AppleNews.config)
       @method = method.upcase
       @url = url
+      @config = config
       @date = Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
       @content_type = nil
       @content_body = nil

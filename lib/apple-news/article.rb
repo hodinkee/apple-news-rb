@@ -17,11 +17,12 @@ module AppleNews
     attr_accessor :document
     def_delegator :@document, :title
 
-    def initialize(id = nil, data = {})
+    def initialize(id = nil, data = {}, config = AppleNews.config)
       super(data)
 
-      @resource_path = "/articles"
       @id = id
+      @config = config
+      @resource_path = "/articles"
 
       document = (data[:document] || data['document'])
       @document = document.is_a?(AppleNews::Document) ? document : Document.new(document)

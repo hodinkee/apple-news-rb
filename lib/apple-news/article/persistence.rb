@@ -5,7 +5,7 @@ module AppleNews
 
       included do
         def save!
-          request = Request::Post.new(endpoint_url)
+          request = Request::Post.new(endpoint_url, config)
           request.fields = {
             'metadata' => metadata_field,
             'article.json' => document_json
@@ -27,7 +27,7 @@ module AppleNews
         alias_method :saved?, :persisted?
 
         def delete!
-          request = Request::Delete.new(endpoint_url)
+          request = Request::Delete.new(endpoint_url, config)
           resp = request.call
 
           return resp['errors'] if resp.is_a?(Hash) && resp.has_key?('errors')
@@ -65,7 +65,7 @@ module AppleNews
           if persisted?
             "/articles/#{id}"
           else
-            "/channels/#{AppleNews.config.channel_id}/articles"
+            "/channels/#{config.channel_id}/articles"
           end
         end
 

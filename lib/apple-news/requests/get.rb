@@ -3,8 +3,8 @@ module AppleNews
     class Get
       attr_reader :url
 
-      def initialize(url)
-        @config = AppleNews.config
+      def initialize(url, config = AppleNews.config)
+        @config = config
         @url = URI::parse(File.join(@config.api_base, url))
       end
 
@@ -20,7 +20,7 @@ module AppleNews
       private
 
       def headers
-        security = AppleNews::Security.new('GET', @url.to_s)
+        security = AppleNews::Security.new('GET', @url.to_s, @config)
         { 'Authorization' => security.authorization }
       end
     end
