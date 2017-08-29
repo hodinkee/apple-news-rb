@@ -75,6 +75,19 @@ channel.articles # all articles in the channel
 channel.default_section.articles # all articles in the default section
 ```
 
+The 10 most recent articles are returned by default. To change the number or sort order, you can pass any of [the query params defined in the API docs](https://developer.apple.com/library/content/documentation/General/Conceptual/News_API_Ref/SearchArticles.html#//apple_ref/doc/uid/TP40015409-CH17-SW1). For example:
+
+``` ruby
+# first 5 articles
+channel.articles(sortDir: 'ASC', pageSize: 5)
+```
+
+A "Read Article" API request will be made for each article to ensure that `#document` exists (the search endpoint only returns read-only attributes). If you don't need to access the document, you can opt-out of this behavior via:
+
+``` ruby
+channel.articles(hydrate: false)
+```
+
 ## Submitting Articles
 
 Apple News articles are submitted as "bundles", with the article content and attached files together in one request. Because of this, we have the concept of a Document. The Document is what contains the actual article content in the Apple News JSON format. The Article encapsulates this and also includes all of the files that will be submitted along with the document.
