@@ -18,6 +18,7 @@ describe AppleNews::Article do
       'isCandidateToBeFeatured' => true,
       'isSponsored'             => false,
       'isPreview'               => false,
+      'isDevelopingStory'       => false,
       'links' => {
         'channel' => 'https://news-api.apple.com/channels/c111',
         'sections' => [
@@ -122,6 +123,7 @@ describe AppleNews::Article do
         'isCandidateToBeFeatured' => false,
         'isSponsored'             => true,
         'isPreview'               => false,
+        'isDevelopingStory'       => false,
         'links' => {
           'sections' => [
             'https://news-api.apple.com/sections/s333'
