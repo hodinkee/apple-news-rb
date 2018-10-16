@@ -10,7 +10,7 @@ module AppleNews
     include Properties
 
     optional_properties :is_sponsored, :is_preview, :accessory_text, :revision,
-                        :maturity_rating, :is_candidate_to_be_featured
+                        :maturity_rating, :is_candidate_to_be_featured, :is_developing_story
     optional_property :links, {}
 
     attr_reader :id, :type, :title, :share_url, :state, :warnings, :created_at, :modified_at
