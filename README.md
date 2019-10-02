@@ -2,6 +2,8 @@
 
 A fully featured gem for building Apple News documents and interfacing with the Apple News API.
 
+**Warning: a lot has changed with the Apple News API since this was last published. Use at your own risk.**
+
 ## Installation
 
 Add this line to your application's Gemfile:
