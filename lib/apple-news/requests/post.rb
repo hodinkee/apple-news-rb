@@ -17,7 +17,7 @@ module AppleNews
 
         # The API can be really slow, sometimes.
         http.read_timeout = 120
-        
+
 
         res = http.post(@url, content_body, headers)
         JSON.parse(res.body)
@@ -43,7 +43,7 @@ module AppleNews
 
       def authorization
         security = AppleNews::Security.new('POST', @url, @config)
-        security.content_type = "multipart/form-data; boundary=#{Net::HTTP::Post::Multipart::DEFAULT_BOUNDARY}"
+        security.content_type = "multipart/form-data; boundary=#{multipart.boundary}"
         security.content_body = content_body
 
         security.authorization
@@ -52,7 +52,7 @@ module AppleNews
       def headers
         {
           'Authorization' => authorization,
-          'Content-Type' => "multipart/form-data; boundary=#{Net::HTTP::Post::Multipart::DEFAULT_BOUNDARY}"
+          'Content-Type' => "multipart/form-data; boundary=#{multipart.boundary}"
         }
       end
     end
